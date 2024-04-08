@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  database:
+    image: postgres
+    container_name: prisma_api
+    restart: always
+    ports: 
+      - 5432:5432
+    environment: 
+      - POSTGRES_USER=prisma_api
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=prisma_api
+    volumes: 
+      - pgdata:/data/postgres
+
+  node_app:
+    image: node:lts
+    container_name: app_prisma
+    working_dir: /usr/src/app
+    volumes:
+      - ./app:/usr/src/app
+    ports:
+      - "3000:3000"
+    command: npm start
+  
+
+volumes: 
+  pgdata:
+    driver: local
